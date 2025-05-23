@@ -23,3 +23,5 @@ docker run meu-echo
 * Obtendo, assim, a seguinte saída: </br>
 
 ![image](https://github.com/user-attachments/assets/3f7c760c-0974-46a4-a2c8-33e754d55071)
+
+### 2. Crie um container com Nginx que sirva uma página HTML customizada (index.html). Monte um volume local com esse arquivo para que ele apareça na raiz do site (/usr/share/nginx/html). Acesse a página via http://localhost.
