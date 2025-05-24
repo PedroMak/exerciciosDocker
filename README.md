@@ -1,4 +1,4 @@
-# Exercícios de Docker - PB Compass UOL
+# PB Compass UOL - Exercícios de Docker  [![My Skills](https://skillicons.dev/icons?i=docker)](https://skillicons.dev)
 
 ### 1. Crie um arquivo Dockerfile que utilize a imagem alpine como base e imprima a mensagem "Olá, Docker!" ao ser executada. Construa a imagem com o nome meu-echo e execute um container a partir dela.
 
@@ -19,11 +19,10 @@ docker build -t meu-echo .
 ```
 docker run meu-echo
 ```
-
 * Obtendo, assim, a seguinte saída: </br>
 
 ![image](https://github.com/user-attachments/assets/3f7c760c-0974-46a4-a2c8-33e754d55071)
-
+#
 ### 2. Crie um container com Nginx que sirva uma página HTML customizada (index.html). Monte um volume local com esse arquivo para que ele apareça na raiz do site (/usr/share/nginx/html). Acesse a página via http://localhost.
 
 * Primeiro crie um arquivo Dockerfile com o seguinte conteúdo:
@@ -37,22 +36,42 @@ EXPOSE 80
 ```
 docker volume create meu-volume
 ```
-
 * Depois construa a imagem com o comando:
 
 ```
 docker build -t ex2:pb .
 ```
-
 * Depois disso rode o container associando o volume a ele:
 
 ```
  docker run -d -p 80:80 --name meu-site -v meu-volume:/usr/share/nginx/html ex2:pb
 ```
-
 * Depois de rodar o container use o comando `docker exec -it meu-site` para entrar no container, entre no diretório `/usr/share/nginx/html`, apague o `index.html` nele existente e crie um novo com o conteúdo que desejar.
 
 ![image](https://github.com/user-attachments/assets/75a59711-d3f2-4e11-86cc-4155e6148078)
 
 * Para testar a persistência do volume, rode `docker rm -f meu-site` para remover o container, em seguida rode um novo com `docker run -d -p 80:80 --name meu-site2 -v meu-volume:/usr/share/nginx/html ex2:pb`. Ao acessar o localhost:80 a página customizada deverá estar sendo servida.
+#
+### 3. Inicie um container da imagem ubuntu com um terminal interativo (bash). Navegue pelo sistema de arquivos e instale o pacote curl utilizando apt.
+
+* Primeiro crie um arquivo Dockerfile com o seguinte conteúdo:
+
+```
+FROM ubuntu:24.04
+```
+* Depois construa a imagem:
+
+```
+docker build -t ex3:pb
+```
+* Em seguida rode o container em modo interativo com o seguinte comando:
+
+```
+docker run -it --name exerc3 ex3:pb bash
+```
+* Dentro do container rode `apt update`, em seguida `apt install -y curl`. Depois da instalação verifique com `curl --version`
+
+![image](https://github.com/user-attachments/assets/4b6f237e-155f-4a53-aa74-2e6c82bd70a2)
+#
+### 4.
 
