@@ -131,5 +131,32 @@ INSERT INTO tecnologias (nome) VALUES
 ![image](https://github.com/user-attachments/assets/df955993-6686-4bdf-9851-eb55695e8641)
 ![image](https://github.com/user-attachments/assets/10ffe9c9-8430-4a79-abe8-29ec80f9f100)
 #
-### 5.
+### 5. Crie um container com a imagem alpine passando uma variável de ambiente chamada MEU_NOME com seu nome. Execute o container e imprima o valor da variável com o comando echo.
+
+* Primeiro crie um arquivo Dockerfile com o seguinte conteúdo:
+
+```
+FROM alpine
+ENV MEU_NOME=Pedro
+```
+* Em seguida construa a imagem:
+
+```
+docker build -t ex5:pb .
+```
+* Depois rode o container com o comando:
+
+```
+docker run -d -it --name exerc5 ex5:pb
+```
+* Dentro do container execute o seguinte comando para poder interagir dentro do container:
+
+```
+docker exec -it exerc5 sh
+```
+* Para finalizar, execute `echo Hi $MEU_NOME` para conferir o uso da variável de ambiente.
+
+![image](https://github.com/user-attachments/assets/e5d7a823-9188-4f18-afb2-4653a62ee7b5)
+#
+### 6. Utilize um multi-stage build para otimizar uma aplicação Go, reduzindo o tamanho da imagem final. Utilize para praticar o projeto GS PING desenvolvido em Golang.
 
