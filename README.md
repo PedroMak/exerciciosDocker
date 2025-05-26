@@ -189,3 +189,5 @@ docker build -t ex6:pb .
 * Para finalizar, rode o comando `docker run --name exerc6 -p 8080:8080 ex6:pb` e visualize no navegador pelo localhost.
 
 ![image](https://github.com/user-attachments/assets/e0056a6d-ccec-4d37-a83b-f316795760d9)
+#
+### 7.
