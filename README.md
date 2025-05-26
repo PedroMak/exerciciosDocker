@@ -73,5 +73,63 @@ docker run -it --name exerc3 ex3:pb bash
 
 ![image](https://github.com/user-attachments/assets/4b6f237e-155f-4a53-aa74-2e6c82bd70a2)
 #
-### 4.
+### 4. Suba um container do MySQL (pode usar a imagem mysql:5.7), utilizando um volume nomeado para armazenar os dados. Crie um banco de dados, pare o container, suba novamente e verifique se os dados persistem.
+
+* Primeiro crie um arquivo Dockerfile com o seguinte conteúdo:
+
+```
+FROM mysql:5.7
+ENV MYSQL_ROOT_PASSWORD=<senha aqui>
+ENV MYSQL_DATABASE=ex4
+```
+* Depois construa a imagem:
+
+```
+docker build -t ex4:pb
+```
+* Em seguida crie um volume:
+
+```
+docker volume create meu-volumeSQL
+```
+
+* Rode então o container com o seguinte comando:
+
+```
+docker run -d --name exerc4 -v meu-volumeSQL:/var/lib/mysql -p 3306:3306 ex4:pb
+```
+* Em seguida utilize o seguinte comando para entrar no container:
+
+```
+docker exec -it exerc4 mysql -u root -p
+```
+> [!NOTE]
+> Após esse comando, o prompt irá solicitar a senha que foi definida no Dockerfile.
+
+* Dentro do container crie uma tabela e insira informações:
+
+```
+USE ex4
+
+CREATE TABLE tecnologias (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100)
+  );
+
+INSERT INTO tecnologias (nome) VALUES 
+  ('Linux'),
+  ('Docker'),
+  ('AWS'),
+  ('Kubernetes');
+```
+* Podemos conferir o conteúdo da tabela com `SELECT * FROM tecnologias`.
+
+![image](https://github.com/user-attachments/assets/7377aef7-08c5-4052-865f-e68d9d659733)
+
+* Para conferir a persistência dos dados, digite `exit` para sair do container e remova-o com `docker rm -f exerc4`. Em seguida rode um novo container com `docker run -d --name exerc4.1 -v meu-volumeSQL:/var/lib/mysql -p 3306:3306 ex4:pb`. Digite então `USE ex4` e execute o comando `SHOW TABLES` ou `SELECT * FROM tecnologias` para conferir.
+
+![image](https://github.com/user-attachments/assets/df955993-6686-4bdf-9851-eb55695e8641)
+![image](https://github.com/user-attachments/assets/10ffe9c9-8430-4a79-abe8-29ec80f9f100)
+#
+### 5.
 
