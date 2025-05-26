@@ -158,5 +158,34 @@ docker exec -it exerc5 sh
 
 ![image](https://github.com/user-attachments/assets/e5d7a823-9188-4f18-afb2-4653a62ee7b5)
 #
-### 6. Utilize um multi-stage build para otimizar uma aplicação Go, reduzindo o tamanho da imagem final. Utilize para praticar o projeto GS PING desenvolvido em Golang.
+### 6. Utilize um multi-stage build para otimizar uma aplicação Go, reduzindo o tamanho da imagem final. Utilize para praticar o projeto [GS PING](https://github.com/docker/docker-gs-ping) desenvolvido em Golang.
 
+* Primeiro baixe a aplicação contida no repositório que está linkado no enunciado e altere o nome do Dockerfile original para que possa construir o seu.
+* Em seguida crie seu próprio Dockerfile com o seguinte conteúdo:
+
+```
+FROM golang:1.19 AS build-stage
+WORKDIR /app
+COPY . .
+
+# Remove a necessidade de bibliotecas C do sistema, garante que o binário seja para Linux e gera o binário
+RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+
+FROM gcr.io/distroless/base-debian11 AS build-stage-2
+WORKDIR /
+
+# Pega o binário gerado no build anterior
+COPY --from=build-stage /docker-gs-ping /docker-gs-ping
+EXPOSE 8080
+
+# Executa o binário
+ENTRYPOINT ["/docker-gs-ping"]
+```
+* Depois, construa a imagem:
+
+```
+docker build -t ex6:pb .
+```
+* Para finalizar, rode o comando `docker run --name exerc6 -p 8080:8080 ex6:pb` e visualize no navegador pelo localhost.
+
+![image](https://github.com/user-attachments/assets/e0056a6d-ccec-4d37-a83b-f316795760d9)
