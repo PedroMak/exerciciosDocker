@@ -194,4 +194,8 @@ docker build -t ex6:pb .
 ![image](https://github.com/user-attachments/assets/c05fbea1-aa82-4202-badd-34483c1acfeb)
 
 #
-### 7.
+### 7. Crie um projeto no docker compose para executar o projeto [React Express + Mongo](https://github.com/docker/awesome-compose/tree/master/react-express-mongodb).
+#
+### 8. Utilize Docker Compose para configurar uma aplicação com um banco de dados PostgreSQL, use para isso o projeto [pgadmin](https://github.com/docker/awesome-compose/tree/master/postgresql-pgadmin).
+
+*
