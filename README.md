@@ -279,4 +279,11 @@ docker run -d -it --name exerc10 ex10:pb
 
 ![image](https://github.com/user-attachments/assets/140248de-74ed-4911-9e81-5e8317731704)
 #
-### 11. Trivy é uma ferramenta open source para análise de vulnerabilidades em imagens Docker. Neste exercício, você irá analisar uma imagem pública, como python:3.9 ou node:16, em busca de vulnerabilidades conhecidas.
+### 11. Trivy é uma ferramenta open source para análise de vulnerabilidades em imagens Docker. Neste exercício, você irá analisar uma imagem pública, como python:3.9, em busca de vulnerabilidades conhecidas.
+
+* Primeiro é preciso instalar o trivy em sua máquina. Para Windows, entre no repositório da [Aquasecurity](https://github.com/aquasecurity/trivy/releases/tag/v0.62.1) e baixe o arquivo `trivy_0.62.1_windows-64bit.zip`;
+* Após extrair o arquivo é preciso adicionar ao Path do Windows para que o trivy possa ser executado de qualquer terminal, para isso, siga o caminho `Painel de Controle → Sistema e Segurança → Sistema → Configurações avançadas do sistema`;
+* Na aba `Avançado` clique em `Variáveis de ambiente` e selecione `Path` em `Variáveis de sistema`;
+* Clique em `Novo` e adicione o caminho da pasta onde se encontra o `trivy.exe`.
+
+* 
