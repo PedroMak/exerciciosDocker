@@ -302,4 +302,5 @@ docker run -d -it --name exerc10 ex10:pb
 * Outra sugestão é atualizar o pacote `setuptools` para uma versão mais recente na qual essas vulnerabilidades já tenham sido resolvidas; versões essas que a saída do trivy já disponibiliza.
 
 ![image](https://github.com/user-attachments/assets/31f947e2-d9d9-482c-bfc0-ecdee03abc16)
-
+#
+### 12.Após identificar vulnerabilidades com ferramentas como o Trivy, o próximo passo é corrigi-las. Imagens grandes e genéricas frequentemente trazem bibliotecas desnecessárias e vulneráveis, além de usarem o usuário root por padrão. Neste exercício, você irá trabalhar com um exemplo de Dockerfile com más práticas e aplicar melhorias para construir uma imagem mais segura e enxuta. Identifique as melhorias e gere uma nova versão de Dockerfile
