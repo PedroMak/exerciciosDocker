@@ -229,11 +229,30 @@ services:
 
 ![image](https://github.com/user-attachments/assets/f5a8098f-7d2f-496b-a240-08260b82b813)
 
-* Dentro do pgadmin, clique em `add server`, na aba `general `preencha o campo `name` como preferir, na aba `connection` preencha `host name/adress` com o nome do container do banco de dados, e os campos de usuário e senha com os valores definidos no `compose.yaml`.
+* Dentro do pgadmin, clique em `add server`, na aba `general `preencha o campo `name` como preferir, na aba `connection` preencha `host name/address` com o nome do container do banco de dados, e os campos de usuário e senha com os valores definidos no `compose.yaml`.
 
 ![image](https://github.com/user-attachments/assets/9c049ea7-8e5d-4523-b206-7ddb912cbfbb)
 #
+### 9. Construa uma imagem baseada no Nginx ou Apache, adicionando um site HTML/CSS estático. Utilize a [landing page do Creative Tim](https://github.com/creativetimofficial/material-kit) para criar uma página moderna hospedada no container.
 
+* Primeiro baixe o repositório linkado no enunciado e, dentro da pasta `material-kit-master` crie um Dockerfile com o seguinte conteúdo:
 
+```
+FROM nginx:stable-alpine
+COPY . /usr/share/nginx/html
+EXPOSE 80
+```
+* Em seguida construa a imagem com o seguinte comando:
 
+```
+docker build -t ex9:pb .
+```
+* Após a construção da imagem, rode o container com o comando:
 
+```
+docker run -d --name exerc9 -p 80:80 ex9:pb
+```
+* Para finalizar, acesse `localhost:80` e confira a página no ar:
+
+![image](https://github.com/user-attachments/assets/fa8bac8d-ecd6-4144-8f82-e87907a73cad)
+#
