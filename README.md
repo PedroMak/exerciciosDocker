@@ -198,4 +198,41 @@ docker build -t ex6:pb .
 #
 ### 8. Utilize Docker Compose para configurar uma aplicação com um banco de dados PostgreSQL, use para isso o projeto [pgadmin](https://github.com/docker/awesome-compose/tree/master/postgresql-pgadmin).
 
-*
+* Primeiro crie um arquivo compose.yaml e insira as seguintes informações:
+
+```
+services:
+
+  postgres:
+    image: postgres:13-alpine3.20
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=e@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    restart: always
+    depends_on: postgres
+```
+> [!NOTE]
+> Criei o arquivo de forma crua e simples apenas para fins de estudo, mas como boa prática é interessante criar um volume para persistência de dados do banco, especificar as variáveis de ambiente em um arquivo `.env` separado.
+
+* Em seguida acesse o `localhost:80` e insira as credenciais definidas no `compose.yaml`:
+
+![image](https://github.com/user-attachments/assets/f5a8098f-7d2f-496b-a240-08260b82b813)
+
+* Dentro do pgadmin, clique em `add server`, na aba `general `preencha o campo `name` como preferir, na aba `connection` preencha `host name/adress` com o nome do container do banco de dados, e os campos de usuário e senha com os valores definidos no `compose.yaml`.
+
+![image](https://github.com/user-attachments/assets/9c049ea7-8e5d-4523-b206-7ddb912cbfbb)
+#
+
+
+
+
