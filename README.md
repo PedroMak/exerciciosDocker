@@ -219,7 +219,8 @@ services:
       - PGADMIN_DEFAULT_EMAIL=e@mail.com
       - PGADMIN_DEFAULT_PASSWORD=password
     restart: always
-    depends_on: postgres
+    depends_on: 
+      - postgres
 ```
 > [!NOTE]
 > Criei o arquivo de forma crua e simples apenas para fins de estudo, mas como boa prática é interessante criar um volume para persistência de dados do banco, especificar as variáveis de ambiente em um arquivo `.env` separado.
