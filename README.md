@@ -256,3 +256,27 @@ docker run -d --name exerc9 -p 80:80 ex9:pb
 
 ![image](https://github.com/user-attachments/assets/fa8bac8d-ecd6-4144-8f82-e87907a73cad)
 #
+### 10. Ao rodar containers com o usuário root, você expõe seu sistema a riscos maiores em caso de comprometimento. Neste exercício, você deverá criar um Dockerfile para uma aplicação simples (como um script Python ou um servidor Node.js) e configurar a imagem para rodar com um usuário não-root.
+
+* Primeiro crie um Dockerfile com o seguinte conteúdo:
+
+```
+FROM node:alpine
+RUN adduser -D user
+USER user
+```
+* Em seguida construa a imagem com:
+
+```
+docker build -t ex10:pb .
+```
+* Depois rode o container com:
+
+```
+docker run -d -it --name exerc10 ex10:pb
+```
+* Para finalizar, rode o comando `docker exec -it exerc10 sh` para entrar no container em um shell e rode o comando `whoami` para conferir seu usuário:
+
+![image](https://github.com/user-attachments/assets/140248de-74ed-4911-9e81-5e8317731704)
+#
+### 11. Trivy é uma ferramenta open source para análise de vulnerabilidades em imagens Docker. Neste exercício, você irá analisar uma imagem pública, como python:3.9 ou node:16, em busca de vulnerabilidades conhecidas.
