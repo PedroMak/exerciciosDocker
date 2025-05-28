@@ -281,9 +281,25 @@ docker run -d -it --name exerc10 ex10:pb
 #
 ### 11. Trivy é uma ferramenta open source para análise de vulnerabilidades em imagens Docker. Neste exercício, você irá analisar uma imagem pública, como python:3.9, em busca de vulnerabilidades conhecidas.
 
+#### Etapa 1 - instalação do trivy:
 * Primeiro é preciso instalar o trivy em sua máquina. Para Windows, entre no repositório da [Aquasecurity](https://github.com/aquasecurity/trivy/releases/tag/v0.62.1) e baixe o arquivo `trivy_0.62.1_windows-64bit.zip`;
 * Após extrair o arquivo é preciso adicionar ao Path do Windows para que o trivy possa ser executado de qualquer terminal, para isso, siga o caminho `Painel de Controle → Sistema e Segurança → Sistema → Configurações avançadas do sistema`;
 * Na aba `Avançado` clique em `Variáveis de ambiente` e selecione `Path` em `Variáveis de sistema`;
 * Clique em `Novo` e adicione o caminho da pasta onde se encontra o `trivy.exe`.
 
-* 
+#### Etapa 2 - análise da imagem:
+* É preciso ter a imagem desejada em sua máquina local e, para isso, pode-se criar um Dockerfile com o conteúdo `FROM python:3.9` e depois construir a imagem com `docker build -t ex11:pb .`; ou pode-se usar o comando `docker pull python:3.9` em seu terminal para baixá-la diretamente do DockerHub.
+* Em seguida rode o comando `trivy imagem <nome_imagem>` para analisar a imagem.
+
+#### Etapa 3 - identificação de vulnerabilidades:
+* Ao rodar `trivy imagem <nome_imagem>` teremos a seguinte saída:
+
+![image](https://github.com/user-attachments/assets/cb69ca18-d971-449e-b78b-a57d001afcf9)
+* Conseguimos então visualizar a presença de 4 vulnerabilidades, sendo uma de nível médio no `pip` (sistema de gerenciamento de pacotes de python, e três de nível alto em módulos do pacote `setuptools`
+
+#### Etapa 4 - sugestão de melhorias:
+* Uma primeira sugestão é utilizar uma imagem python de melhor qualidade. Recomendo buscar imagens mais recentes no DockerHUB, levando em consideração a aba de vulnerabilidades que o site disponibiliza.
+* Outra sugestão é atualizar o pacote `setuptools` para uma versão mais recente na qual essas vulnerabilidades já tenham sido resolvidas; versões essas que a saída do trivy já disponibiliza.
+
+![image](https://github.com/user-attachments/assets/31f947e2-d9d9-482c-bfc0-ecdee03abc16)
+
