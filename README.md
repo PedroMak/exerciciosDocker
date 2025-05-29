@@ -350,3 +350,35 @@ docker run -d -it --name exerc10 ex10:pb
 * Após essas correções conseguimos rodar o container e acessá-lo no localhost:
 
 ![image](https://github.com/user-attachments/assets/44bc928e-6d84-4ec5-8dc6-12c7e0a20478)
+
+* Agora, para melhorar o Dockerfile podemos adicionar um usuário para que não rode como `root`, podemos escolher uma imagem mais leve como `python:3.9-slim` e podemos fazer um multi-stage para evitar que arquivos desnecessários façam parte da imagem.
+* Após essas alterações nossos arquivos se encontram assim:
+
+  * Dockerfile:
+    
+  ```
+  FROM python:3.9 AS builder
+  WORKDIR /app
+  COPY requirements.txt .
+  RUN pip install --prefix=/dependencies -r requirements.txt
+
+  FROM python:3.9-slim
+  RUN useradd -m user
+  WORKDIR /
+  COPY --from=builder /dependencies /usr/local
+  COPY app.py .
+  EXPOSE 5000
+  USER user
+  CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+  ```
+  * requirements.txt:
+    
+  ```
+  flask==1.1.1
+  jinja2<3.0
+  markupsafe<2.1
+  itsdangerous<2.1
+  werkzeug<2.1
+  ```
+> [!NOTE]
+> `--prefix=` usado no Dockefile serve para instalar as dependências em uma pasta diferente da padrão.
