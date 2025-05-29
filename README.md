@@ -382,3 +382,9 @@ docker run -d -it --name exerc10 ex10:pb
   ```
 > [!NOTE]
 > `--prefix=` usado no Dockefile serve para instalar as dependências em uma pasta diferente da padrão.
+
+* Após essas melhorias podemos conferir a redução de tamanho da imagem e que o container está rodando com o usuário criado via Dockerfile:
+ ![image](https://github.com/user-attachments/assets/37abf3fa-bc70-4770-b970-576734c0d5b6)
+ ![image](https://github.com/user-attachments/assets/4809f940-16c7-4b3e-b5a1-ebc86730a614)
+
+* Minha recomendação final seria atualizar as dependências para versões mais recentes onde as vulnerabilidades listadas pelo trivy foram consertadas.
