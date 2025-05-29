@@ -303,4 +303,45 @@ docker run -d -it --name exerc10 ex10:pb
 
 ![image](https://github.com/user-attachments/assets/31f947e2-d9d9-482c-bfc0-ecdee03abc16)
 #
-### 12.Após identificar vulnerabilidades com ferramentas como o Trivy, o próximo passo é corrigi-las. Imagens grandes e genéricas frequentemente trazem bibliotecas desnecessárias e vulneráveis, além de usarem o usuário root por padrão. Neste exercício, você irá trabalhar com um exemplo de Dockerfile com más práticas e aplicar melhorias para construir uma imagem mais segura e enxuta. Identifique as melhorias e gere uma nova versão de Dockerfile
+### 12. Após identificar vulnerabilidades com ferramentas como o Trivy, o próximo passo é corrigi-las. Imagens grandes e genéricas frequentemente trazem bibliotecas desnecessárias e vulneráveis, além de usarem o usuário root por padrão. Neste exercício, você irá trabalhar com um exemplo de Dockerfile com más práticas e aplicar melhorias para construir uma imagem mais segura e enxuta. Identifique as melhorias e gere uma nova versão de Dockerfile.
+
+* Para este exercício foram disponibilizados três arquivos:
+
+  * Dockerfile:
+  
+  ```
+  FROM python:3.9
+  WORKDIR /app
+  COPY requirements.txt .
+  RUN pip install -r requirements.txt
+  COPY . .
+  CMD ["python", "app.py"]
+  ```
+  * requirements.txt:
+  
+  ```
+  flask==1.1.1
+  ```
+  * app.py:
+ 
+  ```
+  from flask import Flask
+
+  app = Flask(__name__)
+
+  @app.route("/")
+  def hello_world(): 
+      return "<p>Hello, World!</p>"
+  ```
+* De cara já podemos identificar a má prática de rodar a aplicação com o `root`, mas antes de alterar o Dockerfile eu a construí com `docker build -t imagem:vul .` e rodei `trivy image imagem:vul` e tive a seguinte saída:
+
+![image](https://github.com/user-attachments/assets/2676c9dd-328a-4ed1-b5b5-7de00fd6a021)
+
+* Conseguimos visualizar a presença de 5 vulnerabilidades, sendo 4 delas de nível alto. Tais vulnerabilidades podem ser resolvidas com o uso de uma imagem mais recente, uma imagem menor (como imagens baseadas em alpine), ou atualizando seu arquivo de dependências para que versões mais recentes sejam instaladas.
+* Ao tentar rodar o container com `docker run --name pythonvul -p 5000:5000 imagem:vul` descobri uma série de problemas com a forma que essa aplicação foi estruturada:
+  * Ao especificar a versão 1.1.1 do Flask no requirements.txt, o pip baixa essa versão antiga de Flask, mas baixa versões atualizadas de outras dependências, gerando conflitos na execução;
+  * O primeiro conflito foi com o `jinja` (um mecanismo de modelo web) que, para consertar, precisei adicionar `jinja2<3.0` ao requirements, para que o pip baixe uma versão antiga e compatível com a versão de Flask utilizada;
+  * O segundo conflito foi com `markupsafe` (biblioteca para escape de caracteres), que foi consertado com a adição de `markupsafe<2.1` (versão compatível) ao requiriments;
+  * O terceiro conflito foi com `itsdangerous` (biblioteca para transferêcia de dados por ambientes não confiáveis), que foi consertado com a adição de `itsdangerous<2.1` (versão compatível) ao requirements;
+  * O quarto, e último, conflito foi com o `werkzeug` (biblioteca que oferece funcionalidades que facilitam o desenvolvimento web), que foi consertado com adição de `werkzeug<2.1` (versão compatível) ao requirements;
+ 
