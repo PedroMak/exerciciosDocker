@@ -296,6 +296,7 @@ docker run -d -it --name exerc10 ex10:pb
 
 ![image](https://github.com/user-attachments/assets/cb69ca18-d971-449e-b78b-a57d001afcf9)
 * Conseguimos então visualizar a presença de 4 vulnerabilidades, sendo uma de nível médio no `pip` (sistema de gerenciamento de pacotes de python, e três de nível alto em módulos do pacote `setuptools`
+* Também foi possível visualizar a presença de mais de 1300 vulnerabilidades na versão Debian em que a imagem se baseia ([aqui](https://raw.githubusercontent.com/PedroMak/exerciciosDocker/refs/heads/main/ex11/vulnerabilidades.json))
 
 #### Etapa 4 - sugestão de melhorias:
 * Uma primeira sugestão é utilizar uma imagem python de melhor qualidade. Recomendo buscar imagens mais recentes no DockerHUB, levando em consideração a aba de vulnerabilidades que o site disponibiliza.
@@ -388,3 +389,5 @@ docker run -d -it --name exerc10 ex10:pb
  ![image](https://github.com/user-attachments/assets/4809f940-16c7-4b3e-b5a1-ebc86730a614)
 
 * Minha recomendação final seria atualizar as dependências para versões mais recentes onde as vulnerabilidades listadas pelo trivy foram consertadas.
+#
+### 13. Crie um Dockerfile que use a imagem python:3.11-slim, copie um script Python local (app.py) e o execute com CMD. O script pode imprimir a data e hora atual.
