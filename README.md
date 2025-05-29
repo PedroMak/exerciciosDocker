@@ -344,4 +344,9 @@ docker run -d -it --name exerc10 ex10:pb
   * O segundo conflito foi com `markupsafe` (biblioteca para escape de caracteres), que foi consertado com a adição de `markupsafe<2.1` (versão compatível) ao requiriments;
   * O terceiro conflito foi com `itsdangerous` (biblioteca para transferêcia de dados por ambientes não confiáveis), que foi consertado com a adição de `itsdangerous<2.1` (versão compatível) ao requirements;
   * O quarto, e último, conflito foi com o `werkzeug` (biblioteca que oferece funcionalidades que facilitam o desenvolvimento web), que foi consertado com adição de `werkzeug<2.1` (versão compatível) ao requirements;
- 
+* Após essas correções, ao rodar o comando `docker run --name pythonvul -p 5000:5000 imagem:vul` ele apresentou um erro, no qual a aplicação não iniciou e o container fechou instantaneamente, para corrigir esse erro foi necessário alterar a linha `CMD ["python", "app.py"]` para `CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]`
+  * Dentro de `app.py` não há nada que inicie o servidor Flask, então rodar o script python com `CMD ["python", "app.py"]` não funciona;
+  * Já com `CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]` você está usando o módulo Flask para iniciar o servidor, sendo necessário também especificar `--host-0.0.0.0` para que possa ser acessado fora do container.
+* Após essas correções conseguimos rodar o container e acessá-lo no localhost:
+
+![image](https://github.com/user-attachments/assets/44bc928e-6d84-4ec5-8dc6-12c7e0a20478)
