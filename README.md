@@ -390,4 +390,50 @@ docker run -d -it --name exerc10 ex10:pb
 
 * Minha recomendação final seria atualizar as dependências para versões mais recentes onde as vulnerabilidades listadas pelo trivy foram consertadas.
 #
-### 13. Crie um Dockerfile que use a imagem python:3.11-slim, copie um script Python local (app.py) e o execute com CMD. O script pode imprimir a data e hora atual.
+### 13. Crie um Dockerfile que use a imagem python:3.11-slim, copie um script Python local (app.py) e o execute com CMD. O script pode imprimir a data e hora atual. Faça o push da imagem para o Docker Hub.
+
+* Para este exercício é necessário uma conta no [DockerHub](https://hub.docker.com/), que pode ser facilmente criada clicando em `sign up` na página principal, que irá abrir a seguinte tela:
+
+![image](https://github.com/user-attachments/assets/c8a0fa77-64f1-4d5f-8cd5-853e3d1ac2bb)
+
+* Vá na aba de repositórios e crie um:
+
+![image](https://github.com/user-attachments/assets/d5e2c26b-a593-4192-ac30-6cfc28185e25)
+
+* Em seguida crie o seguinde script em python para imprimir a data e a hora atual:
+
+```
+import datetime
+
+data = datetime.datetime.now()
+
+print("Dia:", data.strftime("%d"), "/", data.strftime("%m"), "/", data.strftime("%Y"))
+print("Hora:", data.strftime("%H"), ":", data.strftime("%M"))
+```
+* Depois crie o seguinte Dockerfile:
+
+```
+FROM python:3.11-slim
+COPY . .
+CMD ["python", "app.py"]
+```
+* Construa então a imagem com o comando `docker build -t meu-echo:pb .` e depois rode o container com `docker run --name meu-app meu-echo:pb` que nos dará a seguinte saída:
+
+![image](https://github.com/user-attachments/assets/a1b82d52-ebdb-4d98-a24a-a40f6297b72f)
+
+* Agora, para enviarmos nossa imagem para o DOckerHub é necessário que alteremos o nome da imagem para que fique compatível com o nome do repsitório, fazemos isso com o seguinte comando:
+
+```
+docker image tag meu-echo:pb pedromak/exercicio13:v1
+```
+* Em seguida executamos `docker login` para nos autenticarmos:
+
+![image](https://github.com/user-attachments/assets/a53c1208-0834-480a-8651-a85b9b8cc653)
+
+> [!NOTE]
+> Caso seja a primeira vez será solicitado seu usuário e senha.
+
+* Para finalizar executamos `docker push pedromak/exercicio13:v1` e podemos conferir no DockerHub que nossa imagem estará lá:
+
+![image](https://github.com/user-attachments/assets/dd9e3afa-82d5-4dcf-b316-04b1e078afb1)
+
