@@ -195,6 +195,57 @@ docker build -t ex6:pb .
 
 #
 ### 7. Crie um projeto no docker compose para executar o projeto [React Express + Mongo](https://github.com/docker/awesome-compose/tree/master/react-express-mongodb).
+
+* Primeiro baixe a aplicação contida no repositório que está linkado no enunciado e altere o nome do docker compose original para que possa construir o seu.
+* Em seguida crie seu próprio arquivo yaml com o seguinte conteúdo:
+
+```
+services:
+  frontend:
+    restart: always
+    build:
+      context: frontend
+      target: development
+    ports:
+      - 3000:3000
+    networks:
+      - react-express
+    depends_on:
+      - backend
+
+  backend:
+    restart: always
+    build:
+      context: backend
+      target: development
+    networks:
+      - express-mongo
+      - react-express
+    depends_on:
+      - mongo
+    expose: 
+      - 3000
+  mongo:
+    restart: always
+    image: mongo:4.2.0
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - express-mongo
+    expose:
+      - 27017
+
+networks:
+  react-express:
+  express-mongo:
+
+volumes:
+  mongo_data:
+```
+* Depois rodamos o comando `docker compose build` e em seguida `docker compose up`, com isso podemos acessar o `localhost:3000` e conferir a aplicação:
+
+![image](https://github.com/user-attachments/assets/99c98b76-87c7-48bd-9a7f-287bd8513d8b)
+
 #
 ### 8. Utilize Docker Compose para configurar uma aplicação com um banco de dados PostgreSQL, use para isso o projeto [pgadmin](https://github.com/docker/awesome-compose/tree/master/postgresql-pgadmin).
 
@@ -223,7 +274,7 @@ services:
       - postgres
 ```
 > [!NOTE]
-> Criei o arquivo de forma crua e simples apenas para fins de estudo, mas como boa prática é interessante criar um volume para persistência de dados do banco, especificar as variáveis de ambiente em um arquivo `.env` separado.
+> Criei o arquivo de forma crua e simples apenas para fins de estudo, mas como boa prática é interessante criar um volume para persistência de dados do banco e especificar as variáveis de ambiente em um arquivo `.env` separado.
 
 * Em seguida acesse o `localhost:80` e insira as credenciais definidas no `compose.yaml`:
 
